@@ -1,0 +1,13 @@
+namespace WebApplication1.VeterinaryClinic;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            }).Build().Run();
+    }
+}
