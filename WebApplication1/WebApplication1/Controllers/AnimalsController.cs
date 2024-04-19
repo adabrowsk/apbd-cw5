@@ -3,19 +3,19 @@ using WebApplication1.Models;
 namespace WebApplication1.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class AnimalsController : ControllerBase
+[Route("api/[controller]")]
+public class AnimalController : ControllerBase
 {
-    private static List<Animal> _animals = new();
+    private static List<Animal> _animals = new List<Animal>();
 
     [HttpGet]
-    public ActionResult<List<Animal>> GetAnimals()
+    public IActionResult GetAnimals()
     {
         return Ok(_animals);
     }
 
     [HttpGet("{id}")]
-    public ActionResult<Animal> GetAnimalById(int id)
+    public IActionResult GetAnimalById(int id)
     {
         var animal = _animals.FirstOrDefault(a => a.Id == id);
         if (animal == null)
@@ -26,9 +26,9 @@ public class AnimalsController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<Animal> AddAnimal(Animal animal)
+    public IActionResult AddAnimal(Animal animal)
     {
-        animal.Id = _animals.Any() ? _animals.Max(a => a.Id) + 1 : 1;
+        animal.Id = _animals.Count + 1;
         _animals.Add(animal);
         return CreatedAtAction(nameof(GetAnimalById), new { id = animal.Id }, animal);
     }
@@ -44,7 +44,7 @@ public class AnimalsController : ControllerBase
         existingAnimal.Name = animal.Name;
         existingAnimal.Category = animal.Category;
         existingAnimal.Weight = animal.Weight;
-        existingAnimal.FurColor = animal.FurColor;
+        existingAnimal.Color = animal.Color;
         return NoContent();
     }
 
